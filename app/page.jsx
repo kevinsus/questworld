@@ -17,13 +17,16 @@ const Home = () => {
       <div className='text-6xl font-bold mt-10 text-white'>
         Quest World
       </div>
-      <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
+      <div className='card-container'>
         {chapters.map((chapter) => (
           <Link href={`/chapter/${chapter.number}`} key={chapter.number}>
-            <div className='card bg-white p-6 rounded-lg shadow-lg cursor-pointer'>
-              <span>Chapter - {chapter.number}</span>
-              <h3 className='font-bold text-xl'>{chapter.title}</h3>
-              <span>{chapter.concept}</span>
+            <div className='card'>
+              <div>Chapter - {chapter.number}</div>
+              <div>
+                <div className='font-bold text-xl'>{chapter.title}</div>
+                <div>{chapter.concept}</div>
+              </div>
+              <button className='rounded-lg w-full bg-black p-2 text-white'>Play</button>
             </div>
           </Link>
         ))}
