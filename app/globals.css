@@ -2,10 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
-.card {
-  @apply bg-white p-10 rounded rounded-xl w-full
+body {
+  @apply bg-red-950 text-white;
 }
 
-.card-containers {
-  @apply grid grid-cols-2 gap-10 w-full
+.card {
+  @apply bg-white text-black p-4 rounded-lg shadow-lg transition transform hover:scale-105;
 }
