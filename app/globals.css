@@ -3,9 +3,9 @@
 @tailwind utilities;
 
 .card {
-  @apply bg-white p-10 rounded rounded-xl
+  @apply bg-white p-10 rounded rounded-xl w-full
 }
 
-.card-container {
-  @apply grid
+.card-containers {
+  @apply grid grid-cols-2 gap-10 w-full
 }
