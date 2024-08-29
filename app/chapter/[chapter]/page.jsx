@@ -28,6 +28,14 @@ const ChapterPage = () => {
     7: { title: "The Final Battle", concept: "Advanced Use of Loops and Conditionals", narrative: "The final showdown...", objective: "Combine all concepts", guidance: "Prepare for the final test..." },
   };
 
+  const environments = {
+    1: { rowSize: 1, colSize: 2, sword: true, redPotion: 0, greenPotion: 0, shield: false, demons: {row: 1, col: 2, death: false}, adventurer: {startRow: 1, startCol: 1}},
+    2: { rowSize: 1, colSize: 2, sword: true, redPotion: 0, greenPotion: 0, shield: false, demons: {row: 1, col: 2, death: false}, adventurer: {startRow: 1, startCol: 1}},
+    3: { rowSize: 1, colSize: 5, sword: true, redPotion: 0, greenPotion: 0, shield: false, demons: {row: 1, col: 5, death: false}, adventurer: {startRow: 1, startCol: 1}},
+    4: { rowSize: 5, colSize: 5, sword: true, redPotion: 0, greenPotion: 0, shield: false, demons: {row: 1, col: 2, death: false}, adventurer: {startRow: 1, startCol: 1}},
+    5: { rowSize: 1, colSize: 2, sword: true, redPotion: 0, greenPotion: 0, shield: false, demons: {row: 1, col: 2, death: false}, adventurer: {startRow: 1, startCol: 1}},
+  };
+
   const handleChapterChange = (event) => {
     const newChapter = event.target.value;
     setSelectedChapter(newChapter);
@@ -35,6 +43,42 @@ const ChapterPage = () => {
   };
 
   const chapterInfo = chapterDetails[selectedChapter] || chapterDetails[1]; // Default to chapter 1 if not found
+  const environment = environments[selectedChapter] || environments[1];
+
+  // Generate grid based on environment size
+  const generateGrid = () => {
+    let grid = [];
+    for (let row = 1; row <= environment.rowSize; row++) {
+      let rowCells = [];
+      for (let col = 1; col <= environment.colSize; col++) {
+        let cellContent = null;
+
+        // Check for adventurer position
+        if (environment.adventurer.startRow === row && environment.adventurer.startCol === col) {
+          cellContent = <img src="/images/adventurer.png" alt="Adventurer" className='w-full h-auto' />;
+        }
+
+        // Check for demon position
+        if (environment.demons.row === row && environment.demons.col === col && !environment.demons.death) {
+          cellContent = <img src="/images/demon.png" alt="Demon" className='w-full h-auto' />;
+        }
+
+        // Add cell to row
+        rowCells.push(
+          <div key={`${row}-${col}`} className='border border-gray-700 p-2 w-[100px] h-[100px] flex items-center justify-center'>
+            {cellContent}
+          </div>
+        );
+      }
+      // Add row to grid
+      grid.push(
+        <div key={`row-${row}`} className='flex'>
+          {rowCells}
+        </div>
+      );
+    }
+    return grid;
+  };
 
   return (
     <div className='min-h-screen p-10'>
@@ -67,10 +111,10 @@ const ChapterPage = () => {
           <div className='bg-black p-4 rounded-lg shadow-lg flex-1'>
             <h2 className='text-xl font-semibold text-white'>Inventory</h2>
             <ul className='text-white'>
-              <li>Sword (1)</li>
-              <li>Red Potion (2)</li>
-              <li>Green Potion (1)</li>
-              <li>Shield (1)</li>
+              {environment.sword && <li>Sword (1)</li>}
+              {environment.redPotion > 0 && <li>Red Potion ({environment.redPotion})</li>}
+              {environment.greenPotion > 0 && <li>Green Potion ({environment.greenPotion})</li>}
+              {environment.shield && <li>Shield (1)</li>}
             </ul>
           </div>
 
@@ -120,12 +164,12 @@ const ChapterPage = () => {
           />
         </div>
 
-        {/* Adventurer */}
+        {/* Adventurer Grid */}
         <div className='w-full md:w-2/3 flex-shrink-0 p-4 bg-black rounded-lg shadow-lg border border-gray-700'>
           <div className='text-center'>
             <h2 className='text-xl font-semibold mb-2 text-white'>Adventurer</h2>
-            <div className='w-full h-full bg-gray-300 rounded-full flex items-center justify-center'>
-              <img src="/images/adventurer.png" alt="Adventurer" />
+            <div className='w-full bg-gray-300 rounded flex flex-col items-center justify-center'>
+              {generateGrid()}
             </div>
           </div>
         </div>
