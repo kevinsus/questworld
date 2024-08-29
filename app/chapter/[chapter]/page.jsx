@@ -121,11 +121,11 @@ const ChapterPage = () => {
         </div>
 
         {/* Adventurer */}
-        <div className='w-full md:w-1/3 flex-shrink-0 p-4 bg-black rounded-lg shadow-lg border border-gray-700'>
+        <div className='w-full md:w-2/3 flex-shrink-0 p-4 bg-black rounded-lg shadow-lg border border-gray-700'>
           <div className='text-center'>
             <h2 className='text-xl font-semibold mb-2 text-white'>Adventurer</h2>
             <div className='w-full h-full bg-gray-300 rounded-full flex items-center justify-center'>
-              <img src="/images/adventurer.png" alt="Adventurer" className='w-full h-full object-cover' />
+              <img src="/images/adventurer.png" alt="Adventurer" />
             </div>
           </div>
         </div>
