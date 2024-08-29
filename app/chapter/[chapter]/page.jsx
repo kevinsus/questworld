@@ -38,124 +38,129 @@ const ChapterPage = () => {
 
   return (
     <div className='min-h-screen p-10'>
-        <div className='flex flex-col md:flex-row'>
-            {/* Narrative Section */}
-            <div className='flex-1 p-4 bg-black rounded-lg shadow-lg'>
-                <h1 className='text-2xl font-bold text-white'>{chapterInfo.title}</h1>
-                <div className='mt-4'>
-                    <h2 className='text-xl font-semibold text-white'>Narrative</h2>
-                    <p className='text-white'>{chapterInfo.narrative}</p>
-                </div>
-                <div className='mt-4'>
-                    <h2 className='text-xl font-semibold text-white'>Objective</h2>
-                    <p className='text-white'>{chapterInfo.objective}</p>
-                </div>
-                <div className='mt-4'>
-                    <h2 className='text-xl font-semibold text-white'>Guidance</h2>
-                    <p className='text-white'>{chapterInfo.guidance}</p>
-                </div>
+      <div className='flex flex-col md:flex-row'>
+        {/* Narrative Section with NPC Image */}
+        <div className='flex-1 p-4 bg-black rounded-lg shadow-lg flex'>
+          <div className='flex-shrink-0 w-1/3 pr-4'>
+            <img src="/images/sam.png" alt="NPC" className='w-full h-auto rounded-lg shadow-lg' />
+          </div>
+          <div className='flex-1'>
+            <h1 className='text-2xl font-bold text-white'>{chapterInfo.title}</h1>
+            <div className='mt-4'>
+              <h2 className='text-xl font-semibold text-white'>Narrative</h2>
+              <p className='text-white'>{chapterInfo.narrative}</p>
             </div>
-
-            {/* Inventory and Dropdown Options */}
-            <div className='flex flex-col md:flex-row md:ml-4 space-y-4 md:space-y-0 md:space-x-4'>
-                {/* Inventory Section */}
-                <div className='bg-black p-4 rounded-lg shadow-lg flex-1'>
-                    <h2 className='text-xl font-semibold text-white'>Inventory</h2>
-                    <ul className='text-white'>
-                    <li>Sword (1)</li>
-                    <li>Red Potion (2)</li>
-                    <li>Green Potion (1)</li>
-                    <li>Shield (1)</li>
-                    </ul>
-                </div>
-
-                {/* Dropdown and Buttons */}
-                <div className='flex flex-col space-y-4'>
-                    <select
-                    value={selectedChapter}
-                    onChange={handleChapterChange}
-                    className='p-2 border text-black border-gray-300 rounded-lg'
-                    >
-                    {Object.keys(chapterDetails).map((chap) => (
-                        <option key={chap} value={chap}>
-                        Chapter {chap}
-                        </option>
-                    ))}
-                    </select>
-
-                    <button
-                    onClick={() => setShowSettings(!showSettings)}
-                    className='bg-blue-500 text-black p-2 rounded-lg'
-                    >
-                    Settings
-                    </button>
-
-                    <button
-                    onClick={() => setShowHint(!showHint)}
-                    className='bg-yellow-500 text-black p-2 rounded-lg'
-                    >
-                    Hint
-                    </button>
-                </div>
+            <div className='mt-4'>
+              <h2 className='text-xl font-semibold text-white'>Objective</h2>
+              <p className='text-white'>{chapterInfo.objective}</p>
             </div>
+            <div className='mt-4'>
+              <h2 className='text-xl font-semibold text-white'>Guidance</h2>
+              <p className='text-white'>{chapterInfo.guidance}</p>
+            </div>
+          </div>
         </div>
 
-        {/* Coding Input and Adventurer */}
-        <div className='mt-8 flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4'>
-            {/* Coding Input */}
-            <div className='flex-1 p-4 bg-black rounded-lg shadow-lg border border-gray-700'>
-                <h2 className='text-xl font-semibold text-white'>Python Coding Input</h2>
-                <AceEditor
-                    mode="python"
-                    theme="github"
-                    name="python_editor"
-                    editorProps={{ $blockScrolling: true }}
-                    className='w-full h-80'
-                    placeholder='Write your Python code here...'
-                />
-            </div>
+        {/* Inventory and Dropdown Options */}
+        <div className='flex flex-col md:flex-row md:ml-4 space-y-4 md:space-y-0 md:space-x-4'>
+          {/* Inventory Section */}
+          <div className='bg-black p-4 rounded-lg shadow-lg flex-1'>
+            <h2 className='text-xl font-semibold text-white'>Inventory</h2>
+            <ul className='text-white'>
+              <li>Sword (1)</li>
+              <li>Red Potion (2)</li>
+              <li>Green Potion (1)</li>
+              <li>Shield (1)</li>
+            </ul>
+          </div>
 
-            {/* Adventurer */}
-            <div className='w-full md:w-2/3 flex-shrink-0 p-4 bg-black rounded-lg shadow-lg border border-gray-700 flex items-center justify-center'>
-                <div className='text-center'>
-                    <h2 className='text-xl font-semibold mb-2 text-white'>Adventurer</h2>
-                    <div className='w-48 h-48 bg-gray-300 rounded-full flex items-center justify-center text-black font-bold'>
-                    Adventurer
-                    </div>
-                </div>
-            </div>
+          {/* Dropdown and Buttons */}
+          <div className='flex flex-col space-y-4'>
+            <select
+              value={selectedChapter}
+              onChange={handleChapterChange}
+              className='p-2 border text-black border-gray-300 rounded-lg'
+            >
+              {Object.keys(chapterDetails).map((chap) => (
+                <option key={chap} value={chap}>
+                  Chapter {chap}
+                </option>
+              ))}
+            </select>
+
+            <button
+              onClick={() => setShowSettings(!showSettings)}
+              className='bg-blue-500 text-black p-2 rounded-lg'
+            >
+              Settings
+            </button>
+
+            <button
+              onClick={() => setShowHint(!showHint)}
+              className='bg-yellow-500 text-black p-2 rounded-lg'
+            >
+              Hint
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Coding Input and Adventurer */}
+      <div className='mt-8 flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4'>
+        {/* Coding Input */}
+        <div className='flex-1 p-4 bg-black rounded-lg shadow-lg border border-gray-700'>
+          <h2 className='text-xl font-semibold text-white'>Python Coding Input</h2>
+          <AceEditor
+            mode="python"
+            theme="github"
+            name="python_editor"
+            editorProps={{ $blockScrolling: true }}
+            className='w-full h-80'
+            placeholder='Write your Python code here...'
+          />
         </div>
 
-        {/* Settings Popup */}
-        {showSettings && (
-            <div className='fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center'>
-                <div className='bg-black p-4 rounded-lg'>
-                    <h2 className='text-xl font-semibold'>Settings</h2>
-                    <button onClick={() => setShowSettings(false)} className='mt-4 bg-blue-500 text-white p-2 rounded-lg'>
-                    Close
-                    </button>
-                </div>
+        {/* Adventurer */}
+        <div className='w-full md:w-2/3 flex-shrink-0 p-4 bg-black rounded-lg shadow-lg border border-gray-700 flex items-center justify-center'>
+          <div className='text-center'>
+            <h2 className='text-xl font-semibold mb-2 text-white'>Adventurer</h2>
+            <div className='w-48 h-48 bg-gray-300 rounded-full flex items-center justify-center text-black font-bold'>
+              Adventurer
             </div>
-        )}
-
-        {/* Hint Popup */}
-        {showHint && (
-            <div className='fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center'>
-                <div className='bg-black p-4 rounded-lg'>
-                    <h2 className='text-xl font-semibold'>Hint</h2>
-                    <button onClick={() => setShowHint(false)} className='mt-4 bg-blue-500 text-white p-2 rounded-lg'>
-                    Close
-                    </button>
-                </div>
-            </div>
-        )}
-
-        {/* Back to Home Button */}
-        <div className='fixed bottom-4 right-4'>
-            <Link href="/" className='bg-green-500 text-white p-2 rounded-lg'>
-            Back to Home
-            </Link>
+          </div>
         </div>
+      </div>
+
+      {/* Settings Popup */}
+      {showSettings && (
+        <div className='fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center'>
+          <div className='bg-black p-4 rounded-lg'>
+            <h2 className='text-xl font-semibold'>Settings</h2>
+            <button onClick={() => setShowSettings(false)} className='mt-4 bg-blue-500 text-white p-2 rounded-lg'>
+              Close
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Hint Popup */}
+      {showHint && (
+        <div className='fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center'>
+          <div className='bg-black p-4 rounded-lg'>
+            <h2 className='text-xl font-semibold'>Hint</h2>
+            <button onClick={() => setShowHint(false)} className='mt-4 bg-blue-500 text-white p-2 rounded-lg'>
+              Close
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Back to Home Button */}
+      <div className='fixed bottom-4 right-4'>
+        <Link href="/" className='bg-green-500 text-white p-2 rounded-lg'>
+          Back to Home
+        </Link>
+      </div>
     </div>
   );
 };
