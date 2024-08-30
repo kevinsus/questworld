@@ -1,6 +1,7 @@
 "use client"; // Ensure this is a Client Component
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import OpenAI from "openai";
 import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import AceEditor from "react-ace";
@@ -28,32 +29,51 @@ const ChapterPage = () => {
     setNarrativeIndex(narrativeIndex + 1)
   }
 
+  const solutions = [
+    ["character = Bob", "character = Gia", "character = Nua"],
+    ["if has_sword and has_shield: attack_demon()"],
+    ["for step in range(4): move_right()", "position = 1 while position < 5: move_right() position += 1"],
+  ]
+
   const chapterDetails = {
-    1: {
-      title: "Introduction",
-      concept: "Variables",
-      narrative:
-        [
-          "Welcome to Quest World, brave hero! Your mission is to defeat the ultimate boss and bring peace to our land. But to do that, you'll need to grow stronger, gather powerful items such as swords, shields and potions. My name is Chris and I'll be by your side, helping you understand the magic of coding that will make you unstoppable. Now lets first pick your character!",
-          "The objective of this chapter is to learn about variables. Let's start by picking the characters you want! First you need to initialize a variable and assign it to the characters you want! Start by typing: character = \"Bob\". Feel free to choose these different characters: Bob, Gia, and Nua",
-        ],
-      objective: "Learn about variables",
-      guidance:
-        "First you need to initialize a variable and assign it to the characters you want!",
-    },
-    2: {
-      title: "The First Encounter",
-      concept: "Variables and Simple Conditionals",
-      narrative: "Your first challenge...",
-      objective: "Use if statements",
-      guidance: "Check the conditions...",
-    },
-    3: {
-      title: "The Potion of Power",
-      concept: "Conditionals and Variables",
-      narrative: "You find a potion...",
-      objective: "Combine variables and conditionals",
-      guidance: "Experiment with the code...",
+  1: {
+    title: "Introduction",
+    concept: "Variables",
+    narrative:
+      [
+        "Welcome to Quest World, brave hero! Your mission is to defeat the ultimate boss and bring peace to our land. But to do that, you'll need to grow stronger, gather powerful items such as swords, shields and potions. My name is Chris and I'll be by your side, helping you understand the magic of coding that will make you unstoppable. Now lets first pick your character!",
+        "The objective of this chapter is to learn about variables. Let's start by picking the characters you want! First you need to initialize a variable and assign it to the characters you want! Start by typing: character = \"Bob\". Feel free to choose these different characters: Bob, Gia, and Nua",
+      ],
+    objective: "Learn about variables",
+    guidance:
+      "First you need to initialize a variable and assign it to the characters you want!",
+  },
+  2: {
+    title: "The First Encounter",
+    concept: "Variables and Simple Conditionals",
+    narrative: [
+      "Ah, brave adventurer! You have come a long way, but the challenges ahead are even greater. The demon before you is stronger than any you have faced. To defeat it, you must learn to use the power of conditions—specifically, the 'if' statement. Only with the proper equipment and knowledge can you hope to succeed.",
+      "In this chapter, you must master the use of the 'if' statement. This powerful tool allows you to make decisions in your code, guiding your actions based on certain conditions. To defeat the demon, you must check if you have both a sword and a shield. Without these, you will not survive the encounter",
+      "Here's how the 'if' statement works in Python: `if has_sword and has_shield: attack_demon()`",
+      "Let me break it down for you. In this example, has_sword and has_shield are variables that represent whether you have a sword and a shield. These could be set to True or False.",
+      "The line if has_sword and has_shield: checks if both conditions are met. The and keyword means both must be true for the code inside the 'if' block to run. If you have both a sword and a shield, the function attack_demon() is executed, allowing you to defeat the demon."
+    ],
+  },
+  3: {
+    title: "The Bridge of Loops",
+    concept: "For / While Loops",
+    narrative: 
+      [
+        "Greetings, brave adventurer! I see you have made it far on your journey to protect our world. Ahead lies a demon that threatens our lands, and it is up to you to vanquish it. But fear not, for I will guide you on how to harness the power of loops to reach and defeat the demon.",
+        "For this challenge, you must learn to move with precision and purpose. Your task is to travel from your starting position at (1, 1) to the demon’s position at (1, 5). To do this efficiently, we will use something called a 'loop'.",
+        "A loop is a powerful tool that allows you to repeat a set of instructions multiple times, which is essential when you need to perform the same action repeatedly. Let me show you two types of loops that will be helpful for your journey: the 'for' loop and the 'while' loop.",
+        "The 'for' loop is perfect when you know exactly how many times you need to repeat an action. For example, if you know you need to move 4 steps to reach the demon, you can use a 'for' loop to do this. For example `for step in range(4): move_right()`",
+        "This tells your code: 'Move to the right 4 times.' Simple, right? The 'for' loop counts the steps for you, starting at 0 and stopping before 4, which gives us 4 movements in total. Each time, it executes the command move_right().",
+        "The 'while' loop is a bit different. It's used when you want to keep doing something until a certain condition is no longer true. For example, you can keep moving right until you reach the demon. Here's how you could do it.",
+        "Intialise  a variable with starting value 1, for example `position = 1`. Next, is which we used ‘while’ : `while position < 5: move_right() position += 1`",
+        "This loop says: 'As long as my position is less than 5, keep moving right.' Each time you move right, you also increase your position by 1. Once your position reaches 5, the loop stops because the condition position < 5 is no longer true.",
+        "Now try to do it you self in the code input box below."
+      ],
     },
     4: {
       title: "The Bridge of Loops",
@@ -102,7 +122,7 @@ const ChapterPage = () => {
       sword: true,
       redPotion: 0,
       greenPotion: 0,
-      shield: false,
+      shield: true,
       demons: { row: 1, col: 2, death: false },
       adventurer: { startRow: 1, startCol: 1 },
     },
@@ -140,8 +160,8 @@ const ChapterPage = () => {
 
   const hints = [
     "Try selecting the characters by typing: character = Bob",
-    "An if statement is a ...",
-    "A while loop is a ...",
+    "Type this answer `if has_sword and has_shield: attack_demon()`",
+    "Type this answer `for step in range(4): move_right()` or `position = 1 while position < 5: move_right() position += 1`",
     "A while loop is a ...",
     "A while loop is a ...",
     "A while loop is a ...",
@@ -176,7 +196,7 @@ const ChapterPage = () => {
             //   className="w-full h-auto"
             // />
             <img
-              src={`/images/${"demon" || "adventurer"}.png`}
+              src={`/images/${"femaleAdventurer" || "adventurer" || "demon"}.png`}
               alt="Adventurer"
               className="w-full h-auto"
             />
@@ -216,6 +236,62 @@ const ChapterPage = () => {
       );
     }
     return grid;
+  };
+
+  // Open AI for validation
+  const [validation, setValidation] = useState(null);
+  const [popUpValidation, setPopUpValidation] = useState(false);
+  const [reasoning, setReasoning] = useState("")
+
+  const handleTryAgain = () => {
+    setValidation(null)
+    setPopUpValidation(false)
+  }
+
+  const handleNextQuestion = () => {
+    setValidation(null)
+    setPopUpValidation(false)
+  }
+
+  const validateAnswer = async () => {
+    try {
+      const openai = new OpenAI({
+        apiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY,
+        dangerouslyAllowBrowser: true,
+      });
+
+      const completion = await openai.chat.completions.create({
+        model: "gpt-3.5-turbo",
+        messages: [
+          {
+            role: "system",
+            content: `Determine if the following code correctly implements the logic of the provided solution. Respond with "true" if the code is correct and "false" if it is not, followed by an explanation of why it is correct or incorrect.
+
+          Code:
+          ${codeInput}
+          
+          Solution Logic:
+          ${solutions[selectedChapter - 1]}
+          
+          Note that the solution is an array, hence if the code input matches any of the solutions in the array, it is correct.`,
+          },
+        ],
+      });
+      
+      const result = completion.choices[0].message.content.trim();
+      const [validationResult, reasoning] = result.split("\n", 2);
+      console.log(result, codeInput, solutions[selectedChapter - 1])
+      setValidation(validationResult === "true");
+      setReasoning(reasoning.trim())
+      setPopUpValidation(true)
+    } catch (error) {
+      console.error("Error occurred during validation:", error);
+      setValidation(null);
+    }
+    // console.log(codeInput)
+    // console.log(solutions[selectedChapter - 1])
+    // setPopUpValidation(true)
+    // setValidation(true)
   };
 
   return (
@@ -306,9 +382,12 @@ const ChapterPage = () => {
       <div className="mt-8 flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4">
         {/* Coding Input */}
         <div className="flex-1 p-4 bg-black rounded-lg shadow-lg border border-gray-700 h-[19rem] flex flex-col">
-          <h2 className="text-xl font-semibold text-white">
-            Python Coding Input
-          </h2>
+          <div className="flex justify-between mb-3">
+            <h2 className="text-xl font-semibold text-white">
+              Python Coding Input
+            </h2>
+            <button className="button bg-green-700 p-1 px-4" onClick={validateAnswer}>Submit</button>
+          </div>
           <AceEditor
             mode="python"
             theme="github"
@@ -316,6 +395,8 @@ const ChapterPage = () => {
             editorProps={{ $blockScrolling: true }}
             className="flex-1"
             placeholder="Write your Python code here..."
+            onChange={(codeInput) => setCodeInput(codeInput)}
+            value={codeInput}
           />
         </div>
 
@@ -361,6 +442,35 @@ const ChapterPage = () => {
             >
               Close
             </button>
+          </div>
+        </div>
+      )}
+
+      {/* Validation Popup */}
+      {popUpValidation && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+          <div className="bg-black p-4 rounded-lg">
+            {validation ? (
+              <div className="bg-white p-20 text-black rounded-2xl px-32">
+                <h2 className="text-3xl font-semibold mb-10">Correct!</h2>
+                
+                {/* reasoning */}
+                <h2 className="text-xl font-semibold mb-10">Reasoning:</h2>
+                <p>{reasoning}</p>
+
+                <Link href={`/chapter/${parseInt(selectedChapter) + 1}`} onClick={handleNextQuestion} className="mt-4 bg-blue-500 text-white p-2 rounded-lg">Next Question</Link>
+              </div>
+            ) : (
+              <div className="bg-white p-20 text-black rounded-2xl px-32">
+                <h2 className="text-xl font-semibold">Incorrect!</h2>
+
+                {/* reasoning */}
+                <h2 className="text-xl font-semibold mb-10">Reasoning:</h2>
+                <p>{reasoning}</p>
+
+                <button className="mt-4 bg-blue-500 text-white p-2 rounded-lg" onClick={handleTryAgain}>Try again</button>
+              </div>
+            )}
           </div>
         </div>
       )}
