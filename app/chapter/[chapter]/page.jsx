@@ -28,6 +28,14 @@ const ChapterPage = () => {
     setNarrativeIndex(narrativeIndex + 1)
   }
 
+  const handleCodeInput = (event) => {
+    setCodeInput(event.target.value)
+    console.log(selectedChapter)
+    if (selectedChapter == 1) {
+        localStorage.setItem("code", codeInput)
+    }
+  }
+
   const chapterDetails = {
     1: {
       title: "Introduction",
@@ -167,7 +175,7 @@ const ChapterPage = () => {
             //   className="w-full h-auto"
             // />
             <img
-              src={`/images/${"demon" || "adventurer"}.png`}
+              src={`/images/${"femaleAdventurer" || "adventurer" || "demon"}.png`}
               alt="Adventurer"
               className="w-full h-auto"
             />
@@ -307,7 +315,8 @@ const ChapterPage = () => {
             editorProps={{ $blockScrolling: true }}
             className="flex-1"
             placeholder="Write your Python code here..."
-            onChange={(newValue) => codeInput(newValue)}
+            onChange={handleCodeInput}
+            value={newValue}
           />
         </div>
 
