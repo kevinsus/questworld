@@ -58,6 +58,7 @@ const ChapterPage = () => {
       "Let me break it down for you. In this example, has_sword and has_shield are variables that represent whether you have a sword and a shield. These could be set to True or False.",
       "The line if has_sword and has_shield: checks if both conditions are met. The and keyword means both must be true for the code inside the 'if' block to run. If you have both a sword and a shield, the function attack_demon() is executed, allowing you to defeat the demon."
     ],
+    objective: "Use if statements",
   },
   3: {
     title: "The Bridge of Loops",
@@ -74,6 +75,7 @@ const ChapterPage = () => {
         "This loop says: 'As long as my position is less than 5, keep moving right.' Each time you move right, you also increase your position by 1. Once your position reaches 5, the loop stops because the condition position < 5 is no longer true.",
         "Now try to do it you self in the code input box below."
       ],
+      objective: "Use for loops or while loop"
     },
     4: {
       title: "The Bridge of Loops",
@@ -253,7 +255,17 @@ const ChapterPage = () => {
     setPopUpValidation(false)
   }
 
+  const validate = (solution, answer) => {
+    if (solution.includes(answer)) {
+      return true
+    } else {
+      return false
+    }
+  }
+
   const validateAnswer = async () => {
+    const result = validate(solutions[selectedChapter - 1], codeInput)
+    setValidation(result);
     try {
       const openai = new OpenAI({
         apiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY,
@@ -265,33 +277,18 @@ const ChapterPage = () => {
         messages: [
           {
             role: "system",
-            content: `Determine if the following code correctly implements the logic of the provided solution. Respond with "true" if the code is correct and "false" if it is not, followed by an explanation of why it is correct or incorrect.
-
-          Code:
-          ${codeInput}
-          
-          Solution Logic:
-          ${solutions[selectedChapter - 1]}
-          
-          Note that the solution is an array, hence if the code input matches any of the solutions in the array, it is correct.`,
+            content: `The answer is :, now give an explaination about ${chapterDetails[selectedChapter].objective} and the correlation with the answer in 60 words`
           },
         ],
       });
       
-      const result = completion.choices[0].message.content.trim();
-      const [validationResult, reasoning] = result.split("\n", 2);
-      console.log(result, codeInput, solutions[selectedChapter - 1])
-      setValidation(validationResult === "true");
-      setReasoning(reasoning.trim())
+      const reasoning_ai = completion.choices[0].message.content.trim();
+      setReasoning(reasoning_ai)
       setPopUpValidation(true)
     } catch (error) {
       console.error("Error occurred during validation:", error);
       setValidation(null);
     }
-    // console.log(codeInput)
-    // console.log(solutions[selectedChapter - 1])
-    // setPopUpValidation(true)
-    // setValidation(true)
   };
 
   return (
@@ -449,26 +446,26 @@ const ChapterPage = () => {
       {/* Validation Popup */}
       {popUpValidation && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-          <div className="bg-black p-4 rounded-lg">
+          <div className="p-4 rounded-lg relative">
             {validation ? (
-              <div className="bg-white p-20 text-black rounded-2xl px-32">
-                <h2 className="text-3xl font-semibold mb-10">Correct!</h2>
+              <div className="bg-white p-10 text-black rounded-2xl px-10 w-[40rem] h-[22rem]">
+                <h2 className="text-3xl font-semibold mb-2">Correct!</h2>
                 
                 {/* reasoning */}
-                <h2 className="text-xl font-semibold mb-10">Reasoning:</h2>
+                <h2 className="text-xl font-semibold mb-2">Reasoning:</h2>
                 <p>{reasoning}</p>
 
-                <Link href={`/chapter/${parseInt(selectedChapter) + 1}`} onClick={handleNextQuestion} className="mt-4 bg-blue-500 text-white p-2 rounded-lg">Next Question</Link>
+                <Link href={`/chapter/${parseInt(selectedChapter) + 1}`} onClick={handleNextQuestion} className="absolute bottom-10 bg-blue-500 text-white p-2 rounded-lg">Next Question</Link>
               </div>
             ) : (
-              <div className="bg-white p-20 text-black rounded-2xl px-32">
-                <h2 className="text-xl font-semibold">Incorrect!</h2>
+              <div className="bg-white p-10 text-black rounded-2xl px-10 w-[40rem] h-[22rem]">
+                <h2 className="text-xl font-semibold mb-2">Incorrect!</h2>
 
                 {/* reasoning */}
-                <h2 className="text-xl font-semibold mb-10">Reasoning:</h2>
+                <h2 className="text-xl font-semibold mb-2">Reasoning:</h2>
                 <p>{reasoning}</p>
 
-                <button className="mt-4 bg-blue-500 text-white p-2 rounded-lg" onClick={handleTryAgain}>Try again</button>
+                <button className="mt-4 bg-blue-500 text-white p-2 rounded-lg absolute bottom-10" onClick={handleTryAgain}>Try again</button>
               </div>
             )}
           </div>
