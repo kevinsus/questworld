@@ -12,7 +12,9 @@
     "@codemirror/basic-setup": "^0.20.0",
     "@codemirror/lang-python": "^6.1.6",
     "ace-builds": "^1.36.0",
+    "dotenv": "^16.4.5",
     "next": "14.2.7",
+    "openai": "^4.57.0",
     "react": "^18",
     "react-ace": "^12.0.0",
     "react-dom": "^18"
