@@ -138,6 +138,15 @@ const ChapterPage = () => {
     },
   };
 
+  const hints = [
+    "Try selecting the characters by typing: character = Bob",
+    "An if statement is a ...",
+    "A while loop is a ...",
+    "A while loop is a ...",
+    "A while loop is a ...",
+    "A while loop is a ...",
+  ]
+
   const handleChapterChange = (event) => {
     const newChapter = event.target.value;
     setSelectedChapter(newChapter);
@@ -307,7 +316,6 @@ const ChapterPage = () => {
             editorProps={{ $blockScrolling: true }}
             className="flex-1"
             placeholder="Write your Python code here..."
-            onChange={(newValue) => codeInput(newValue)}
           />
         </div>
 
@@ -344,6 +352,9 @@ const ChapterPage = () => {
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
           <div className="bg-black p-4 rounded-lg">
             <h2 className="text-xl font-semibold">Hint</h2>
+            <div className="bg-white p-10 text-black">
+              <p>{hints[selectedChapter - 1]}</p>
+            </div>
             <button
               onClick={() => setShowHint(false)}
               className="mt-4 bg-blue-500 text-white p-2 rounded-lg"
