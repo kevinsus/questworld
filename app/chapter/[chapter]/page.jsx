@@ -20,6 +20,19 @@ const ChapterPage = () => {
   const [selectedChapter, setSelectedChapter] = useState(chapter);
   const [narrativeIndex, setNarrativeIndex] = useState(0)
   const [codeInput, setCodeInput] = useState("");
+  const [avatar, setAvatar] = useState("male")
+
+  useEffect(() => {
+    if (typeof window !== 'undefined' && window.localStorage) {
+      let avatarType = localStorage.getItem('avatar');
+      setAvatar(avatarType)
+    }
+  }, []);
+  
+  const handleAvatarChange = (event) => {
+    setAvatar(event.target.value)
+    localStorage.setItem("avatar", event.target.value)
+  }
 
   const handleBackNarrative = () => {
     setNarrativeIndex(narrativeIndex - 1)
@@ -198,9 +211,9 @@ const ChapterPage = () => {
             //   className="w-full h-auto"
             // />
             <img
-              src={`/images/${"femaleAdventurer" || "adventurer" || "demon"}.png`}
-              alt="Adventurer"
-              className="w-full h-auto"
+                src={`/images/${avatar === "female" ? "femaleAdventurer" : avatar === "male" ? "adventurer" : "demon"}.png`}
+                alt="Adventurer"
+                className="w-full h-auto"
             />
           );
         }
@@ -415,6 +428,24 @@ const ChapterPage = () => {
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
           <div className="bg-black p-4 rounded-lg">
             <h2 className="text-xl font-semibold">Settings</h2>
+            <div className="bg-white p-10 text-black">
+                Avatar:
+                <select
+                value={avatar}
+                onChange={handleAvatarChange}
+                className="p-2 border text-black border-gray-300 rounded-lg"
+                >
+                    <option key={"femaleAdventurer"} value={"female"}>
+                        Female
+                    </option>
+                    <option key={"Adventurer"} value={"male"}>
+                        Male
+                    </option>
+                    <option key={"demon"} value={"demon"}>
+                        Demon
+                    </option>
+                </select>
+            </div>
             <button
               onClick={() => setShowSettings(false)}
               className="mt-4 bg-blue-500 text-white p-2 rounded-lg"
